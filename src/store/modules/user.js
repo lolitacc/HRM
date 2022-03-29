@@ -1,6 +1,32 @@
+import { getToken, setToken, removeToken } from '@/utils/auth'
+import { login } from '@/api/user'
+const state = {
+  token: getToken()// 初始化vuex时，优先从缓存中读取token
+}
+const mutations = {
+  SetToken(state, token) {
+    state.token = token // 将读取到的token设置给vuex
+    setToken(token)// 如果修改了state中的token就把它同步给缓存
+  },
+  // 删除token
+  RemoveToken(state) {
+    state.token = null// 删除vuex里面的token
+    removeToken()// 删除缓存里面的token
+  }
+}
+// 登录的Action 给组件使用 登录成功了就把token设置给vuex
+const actions = {
+  async Login(context, data) {
+    const result = await login(data)// 调用api接口 因为我们封装的login其实是返回了拦截器之后的axios对象，
+    // 所以加一个await，只有那边resolve，拿到data以后我们这边才继续执行 await异常处理只能使用 try catch
+    // 在login里面return好data了这里就不用result.data.success再判断了
+    context.commit('SetToken', result)
+  }
+}
+
 export default {
   namespaced: true,
-  state: {},
-  mutations: {},
-  actions: {}
+  state,
+  mutations,
+  actions
 }
