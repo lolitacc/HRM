@@ -1,4 +1,4 @@
-import { getToken, setToken, removeToken } from '@/utils/auth'
+import { getToken, setToken, removeToken, setTokenTimeStamp } from '@/utils/auth'
 import { login, getUserInfo, getUserBaseById } from '@/api/user'
 const state = {
   token: getToken(), // 初始化vuex时，优先从缓存中读取token
@@ -30,6 +30,8 @@ const actions = {
     // 所以加一个await，只有那边resolve，拿到data以后我们这边才继续执行 await异常处理只能使用 try catch
     // 在login里面return好data了这里就不用result.data.success再判断了
     context.commit('SetToken', result)
+    // 在调用登录actions的时候设置token时间戳
+    setTokenTimeStamp() // 不用穿参
   },
   // 获取用户信息的action
   async getUserInfo(context) {
@@ -37,6 +39,10 @@ const actions = {
     const userBaseInfo = await getUserBaseById(userInfo.userId)
     context.commit('setUserInfo', { ...userInfo, ...userBaseInfo })// 把个人信息保存在vuex里面
     return userInfo // 做权限
+  },
+  logout(context) {
+    context.commit('RemoveToken')
+    context.commit('removeUserInfo')
   }
 }
 
