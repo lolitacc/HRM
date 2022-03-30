@@ -1,5 +1,5 @@
 import { getToken, setToken, removeToken } from '@/utils/auth'
-import { login, getUserInfo } from '@/api/user'
+import { login, getUserInfo, getUserBaseById } from '@/api/user'
 const state = {
   token: getToken(), // 初始化vuex时，优先从缓存中读取token
   userInfo: {} // 用户信息
@@ -33,9 +33,10 @@ const actions = {
   },
   // 获取用户信息的action
   async getUserInfo(context) {
-    const result = await getUserInfo() // 使用axios请求接口 这里返回的只有data了，其他数据在响应拦截器里已经被解构
-    context.commit('setUserInfo', result)// 把个人信息保存在vuex里面
-    return result // 做权限
+    const userInfo = await getUserInfo() // 使用axios请求接口 这里返回的只有data了，其他数据在响应拦截器里已经被解构
+    const userBaseInfo = await getUserBaseById(userInfo.userId)
+    context.commit('setUserInfo', { ...userInfo, ...userBaseInfo })// 把个人信息保存在vuex里面
+    return userInfo // 做权限
   }
 }
 
