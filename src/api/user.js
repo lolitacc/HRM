@@ -9,9 +9,13 @@ export function login(data) {
     data
   })
 }
-
-export function getInfo(token) {
-
+// 获取用户资料接口
+export function getUserInfo() {
+  return request({
+    url: '/sys/profile',
+    method: 'post'
+    // 这里需要传递token 采用拦截器统一注入
+  })
 }
 
 export function logout() {
