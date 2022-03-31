@@ -29,10 +29,11 @@ myAxios.interceptors.request.use(config => {
     // 当等于10002的时候 表示 后端告诉我token超时了
     store.dispatch('user/logout') // 删除token和用户信息的action
     router.push('/login')
+    return Promise.reject(error)// 请求失败终止promise链
   } else {
     Message.error(error.message) // 提示错误信息
+    return Promise.reject(error)// 请求失败终止promise链
   }
-  return Promise.reject(error)// 请求失败终止promise链
 })
 
 // 响应拦截器

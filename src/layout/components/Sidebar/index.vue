@@ -13,6 +13,7 @@
         mode="vertical"
       >
         <sidebar-item v-for="route in routes" :key="route.path" :item="route" :base-path="route.path" />
+        <!--SidebarItem组件在这里接受父亲传给他的参数 item=route 每一个route写了他的svg名称  -->
       </el-menu>
     </el-scrollbar>
   </div>

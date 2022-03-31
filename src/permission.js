@@ -13,9 +13,6 @@ router.beforeEach(async(to, from, next) => {
     if (to.path === '/login') { // 有token情况 如果去登录页，免登录跳到主页
       next('/')
     } else { // 有token且在非登录页面，才获取用户信息
-      // if (!store.getters.userId) { // 在vuex中没有该用户信息的时候获取该用户信息
-      //   await store.dispatch('user/getUserInfo')// 等待请求完毕再放行到下一个路由页面
-      // }
       if (!store.getters.userId) {
         // 如果没有id这个值 才会调用 vuex的获取资料的action
         await store.dispatch('user/getUserInfo')

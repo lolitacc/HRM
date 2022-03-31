@@ -224,6 +224,7 @@
 
   .nest-menu .el-submenu>.el-submenu__title,
   .el-menu-item {
+    font-size: 16px !important;
     &:hover {
       // you can use $subMenuHover
       background-color: $menuHover !important;
