@@ -1,4 +1,4 @@
-import { getToken, setToken, removeToken, setTokenTimeStamp } from '@/utils/auth'
+import { getToken, setToken, removeToken, setTokenTimeStamp, removeTokenTimeStamp } from '@/utils/auth'
 import { login, getUserInfo, getUserBaseById } from '@/api/user'
 const state = {
   token: getToken(), // 初始化vuex时，优先从缓存中读取token
@@ -11,15 +11,16 @@ const mutations = {
   },
   // 删除token
   RemoveToken(state) {
-    state.token = null// 删除vuex里面的token
+    state.token = null // 删除vuex里面的token
     removeToken()// 删除缓存里面的token
   },
   // 用户信息相关
   setUserInfo(state, data) {
     state.userInfo = data
   },
-  removeUserInfo() {
+  removeUserInfo(state) {
     state.userInfo = {} // 退出或切换时换成空
+    removeTokenTimeStamp()
   }
 
 }
