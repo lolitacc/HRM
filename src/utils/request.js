@@ -15,20 +15,21 @@ myAxios.interceptors.request.use(config => {
   if (store.getters.token) {
     // 在注入token之前判断是否失效
     if (isTokenTimeout()) {
-      router.push('/login')
       // 失效先（删除token和用户信息）=》封装在logout里面了 路由跳转转到登录页面、中断promise链 、
       store.dispatch('user/logout')
+      router.push('/login')
       return Promise.reject(new Error('token超时了'))
+    } else {
+      config.headers['Authorization'] = `Bearer ${store.getters.token}`
     }
-    config.headers['Authorization'] = `Bearer ${store.getters.token}`
   }
   return config // 请求的配置信息，需要return
 }, error => {
   // error 信息 里面 response的对象
   if (error.response && error.response.data && error.response.data.code === 10002) {
     // 当等于10002的时候 表示 后端告诉我token超时了
-    router.push('/login')
     store.dispatch('user/logout') // 删除token和用户信息的action
+    router.push('/login')
     return Promise.reject(error)// 请求失败终止promise链
   } else {
     Message.error(error.message) // 提示错误信息

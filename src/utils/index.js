@@ -1,13 +1,4 @@
-/**
- * Created by PanJiaChen on 16/11/18.
- */
 
-/**
- * Parse the time to string
- * @param {(Object|string|number)} time
- * @param {string} cFormat
- * @returns {string | null}
- */
 export function parseTime(time, cFormat) {
   if (arguments.length === 0 || !time) {
     return null
@@ -115,3 +106,30 @@ export function param2Obj(url) {
   })
   return obj
 }
+
+export function turnTreeData(dataslist, initval) {
+  var tree = []
+  dataslist.forEach(data => {
+    if (data.pid === initval) {
+      const children = turnTreeData(dataslist, data.id)
+      if (children.length) {
+        data.children = children
+      }
+      tree.push(data)
+    }
+  })
+  return tree
+}
+// export function turnTreeData(dataslist, initval) {
+//   var tree = []
+//   dataslist.forEach(data => {
+//     if (data.pid === initval) {
+//       const children = turnTreeData(dataslist, data.id)
+//       if (children.length) {
+//         data.children = children
+//       }
+//       tree.push(data)
+//     }
+//   })
+//   return tree
+// }
