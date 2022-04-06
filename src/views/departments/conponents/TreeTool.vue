@@ -46,13 +46,18 @@ export default {
         this.$emit('addDepts', this.treeNode)
         // 当commnd为add的item被点击时触发 调用添加方法并且把当前的treeNode节点信息传给父亲
       } else if (command === 'edit') {
-        alert('edit')
+        // 点击编辑部门，我们要数据回写，要用id调接口，所以在这个组件用自定义事件把数据子传父
+        this.$emit('editDepts', this.treeNode.id)
       } else {
         this.$confirm('您确定要删除此部门吗？').then(() => {
           return delDepartments(this.treeNode.id)
         }).then(() => {
           this.$emit('getDeptAgain')
-          this.$message('删除成功')
+          this.$message({
+            showClose: true,
+            message: '删除成功',
+            type: 'warning'
+          })
         })
         // 当删除事件结束以后，触发重新请求事件，用全局事件总线$emit取触发自定义事件
       }

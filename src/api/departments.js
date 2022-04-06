@@ -20,3 +20,17 @@ export function addDepartments(data) {
     data // 这里data对应的是传入的body参数，恰好是函数的形参同名
   })
 }
+// 根据id拿到部门数据
+export function getDeptsById(id) {
+  return myAxios({
+    url: `/company/department/${id}`
+  })
+}
+// 根据id更改部门数据
+export function putDepts(data) {
+  return myAxios({
+    url: `/company/department/${data.id}`,
+    method: 'put',
+    data
+  })
+}

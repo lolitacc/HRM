@@ -10,12 +10,13 @@
           :default-expand-all="true"
         >
           <!--每一行tree-tool的数据是从上面el-tree里面循环获得的，取里面的data传递给tree-node 就是获取到的分别每一项节点信息-->
-          <tree-tool slot-scope="{ data }" :tree-node="data" @getDeptAgain="getDepartments" @addDepts="addDepts" />
+          <tree-tool slot-scope="{ data }" :tree-node="data" @getDeptAgain="getDepartments" @addDepts="addDepts" @editDepts="editDepts" />
           <!-- 绑定重新请求接口的自定义事件 -->
         </el-tree>
       </el-card>
-      <!-- 添加窗体组件 -->
-      <add-depts :dialog-visible.sync="dialogVisible" :operation-node="node" @getDeptAgain="getDepartments" />
+      <!-- 添加窗体组件 operation-node是prop穿参正在被点击的子部门，由被点击的每个treeNode传入给index，index再传给add-Depts组件-->
+      <!-- TreeTool=>index.vue=>AddDepts -->
+      <add-depts ref="addDepts" :dialog-visible.sync="dialogVisible" :operation-node="node" @getDeptAgain="getDepartments" />
     </div>
   </div>
 </template>
@@ -54,6 +55,11 @@ export default {
       this.dialogVisible = true// 显示弹层
       // 记录当前点击的组件
       this.node = treenode// 并且把得到的参数存入自己的node中
+    },
+    editDepts(id) {
+      //  在AddDepts组件调接口，因为那个组件需要数据渲染，这里用ref获取vc实例，从父组件调用子组件方法
+      this.dialogVisible = true// 显示弹层
+      this.$refs.addDepts.getDeptsById(id)
     }
   }
 }
