@@ -167,6 +167,7 @@ export default {
     // 提交编辑数据
     async checkCommit() {
       try {
+        // validate不传参数就是返回一个promise对象
         await this.$refs.roleForm.validate()// 通过校验执行下一步=》判断是否为编辑或者新增，
         // 编辑则调用编辑接口
         if (this.roleForm.id) {

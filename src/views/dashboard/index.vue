@@ -1,18 +1,19 @@
 <template>
   <div class="dashboard-container">
     <div class="dashboard-text">name: {{ name }}</div>
+    <page-tool :show-before="true">
+      <span slot="before">aaaaaaaa</span>
+      <el-button slot="after" type="primary">btn</el-button>
+    </page-tool>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
-
 export default {
   name: 'Dashboard',
   computed: {
-    ...mapGetters([
-      'name'
-    ])
+    ...mapGetters(['name'])
   }
 }
 </script>
