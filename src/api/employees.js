@@ -28,3 +28,11 @@ export function addStaff(data) {
     data
   })
 }
+// excel批量导入员工接口
+export function impExcelStaff(data) {
+  return myAxios({
+    url: '/sys/user/batch',
+    method: 'post',
+    data
+  })
+}

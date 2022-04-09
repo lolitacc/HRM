@@ -8,14 +8,13 @@ import router from '@/router'
 const tokenTimeout = 5000
 const myAxios = axios.create({
   baseURL: process.env.VUE_APP_BASE_API, // 解决生产环境变量问题
-  timeout: 5000
+  timeout: 10000
 }) // 创建一个axios的实例
 // 请求拦截器 统一注入token
 myAxios.interceptors.request.use(config => {
   if (store.getters.token) {
-    // 在注入token之前判断是否失效
+    // 在注入token之前判断是否失效 // 失效先（删除token和用户信息）=》封装在logout里面了 路由跳转转到登录页面、中断promise链 、
     if (isTokenTimeout()) {
-      // 失效先（删除token和用户信息）=》封装在logout里面了 路由跳转转到登录页面、中断promise链 、
       store.dispatch('user/logout')
       router.push('/login')
       return Promise.reject(new Error('token超时了'))

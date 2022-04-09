@@ -5,7 +5,7 @@
       <page-tool :show-before="true">
         <span slot="before">共{{ params.total }}条记录</span>
         <template slot="after">
-          <el-button size="small" type="success">excel导入</el-button>
+          <el-button size="small" type="success" @click="$router.push('/import')">excel导入</el-button>
           <el-button size="small" type="info">excel导出</el-button>
           <el-button size="small" type="primary" @click="dialogVisible=true">新增员工</el-button>
         </template>
@@ -118,6 +118,7 @@ export default {
         console.log(error)
       }
     }
+
   }
 }
 </script>

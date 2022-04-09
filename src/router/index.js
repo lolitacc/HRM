@@ -40,6 +40,17 @@ export const constantRoutes = [
     }]
   },
 
+  // 点击到excel路由页面 需要布局所以要在layout组件下面二级路由
+  {
+    path: '/import',
+    component: Layout,
+    hidden: 'true', // 隐藏在左侧siderbar不显示
+    children: [{
+      path: '', // path为空表示默认二级路由
+      component: () => import('@/views/impexcel/index')// 引入导入excel组件
+    }]
+  },
+
   // 404 通配报错页面
   { path: '*', redirect: '/404', hidden: true }
 ]
