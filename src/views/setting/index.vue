@@ -3,15 +3,15 @@
     <div class="app-container">
       <el-card>
         <el-tabs>
-          <el-tab-pane label="角色管理">
-            <!-- 角色管理标签页内容 表格-->
-            <!-- 新增角色按钮 -->
+          <el-tab-pane label="职位管理">
+            <!-- 职位管理标签页内容 表格-->
+            <!-- 新增职位按钮 -->
             <el-row style="height: 60px">
               <el-button
                 type="primary"
                 icon="el-icon-plus"
                 size="small"
-              >新增角色</el-button>
+              >新增职位</el-button>
             </el-row>
             <el-table :data="roleList" border>
               <el-table-column
@@ -23,7 +23,7 @@
               <el-table-column
                 align="center"
                 prop="name"
-                label="角色名称"
+                label="职位名称"
                 width="240"
               />
               <el-table-column align="center" prop="description" label="描述" />
@@ -84,16 +84,16 @@
             </el-form></el-tab-pane>
         </el-tabs>
         <el-dialog
-          title="编辑角色"
+          title="编辑职位"
           :visible="dialogVisible"
           @close="cancel"
         >
           <el-form ref="roleForm" :model="roleForm" :rules="rules" label-width="80px">
-            <el-form-item label="角色名称" prop="name">
+            <el-form-item label="职位名称" prop="name">
               <!-- 双向数据绑定在input上，校验规则绑定在item上 -->
               <el-input v-model="roleForm.name" />
             </el-form-item>
-            <el-form-item label="角色描述">
+            <el-form-item label="职位描述">
               <el-input v-model="roleForm.description" />
             </el-form-item>
           </el-form>
@@ -121,7 +121,7 @@ export default {
       },
       roleForm: {}, // 接收新增或编辑数据的容器
       rules: { // 校验规则
-        name: [{ required: true, message: '角色名称不能为空', trigger: 'blur' }]
+        name: [{ required: true, message: '职位名称不能为空', trigger: 'blur' }]
       },
       dialogVisible: false
     }
@@ -151,7 +151,7 @@ export default {
     },
     async delRole(id) {
       try {
-        await this.$confirm('您确定要删除该角色吗')
+        await this.$confirm('您确定要删除该职位吗')
         await delRole(id)// 删除角色
         await getRoleList()// 删除成功以后重新拉取
         this.$message.success('删除成功')
