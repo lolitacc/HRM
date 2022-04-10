@@ -6,7 +6,7 @@
         <span slot="before">共{{ params.total }}条记录</span>
         <template slot="after">
           <el-button size="small" type="success" @click="$router.push('/import')">excel导入</el-button>
-          <el-button size="small" type="info">excel导出</el-button>
+          <el-button size="small" type="info" @click="expExcel">excel导出</el-button>
           <el-button size="small" type="primary" @click="dialogVisible=true">新增员工</el-button>
         </template>
       </page-tool>
@@ -74,6 +74,8 @@
 import { getStaff, delStaff } from '@/api/employees'
 import staffEnum from '@/api/constant/employees'
 import AddEmployee from './component/AddEmployee.vue'
+// 引入格式化时间后面0的方法
+import { formatDate } from '@/filters'
 export default {
   components: { AddEmployee },
   data() {
@@ -117,6 +119,44 @@ export default {
       } catch (error) {
         console.log(error)
       }
+    },
+    expExcel() {
+      const headers = {
+        '姓名': 'username',
+        '工号': 'workNumber',
+        '聘用形式': 'formOfEmployment',
+        '手机号': 'mobile',
+        '入职日期': 'timeOfEntry',
+        '转正日期': 'correctionTime',
+        '部门': 'departmentName'
+      }
+      import('@/vendor/Export2Excel').then(async excel => {
+        const { rows } = await getStaff({ page: 1, size: this.params.total })
+        const data = this.formatJson(headers, rows)
+        const multiHeader = [['姓名', '主要信息', '', '', '', '', '部门']]
+        const merges = ['A1:A2', 'B1:F1', 'G1:G2']
+        excel.export_json_to_excel({
+          header: Object.keys(headers), // 正常表头
+          data,
+          filename: '员工信息表',
+          multiHeader, // 复杂表头
+          merges// 合并表头
+        })
+      })
+    },
+    formatJson(headers, rows) {
+      return rows.map(item => { // map返回一个二维数组 遍历rows里面每一个对象
+        return Object.keys(headers).map(key => { // map返回一个数组 遍历得到每一个headers【key】
+          if (headers[key] === 'timeOfEntry' || headers[key] === 'correctionTime') {
+            return formatDate(item[headers[key]]) // item里面值对应的是英文key 所以从headers【key】headers数组的值对应 时间需要格式化
+          } else if (headers[key] === 'formOfEmployment') {
+            const obj = staffEnum.hireType.find(obj => obj.id === item[headers[key]])
+            return obj ? obj.value : '未知类型'
+          } else {
+            return item[headers[key]]
+          }
+        })
+      })
     }
 
   }
