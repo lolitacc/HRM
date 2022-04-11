@@ -1,6 +1,13 @@
 <template>
   <div class="dashboard-container">
     <div class="app-container">
+      <el-row type="flex" justify="end">
+        <el-tooltip content="打印个人基本信息">
+          <router-link :to="`/employees/print/${userId}?type=personal`">
+            打印个人基本信息  <i class="el-icon-printer" />
+          </router-link>
+        </el-tooltip>
+      </el-row>
       <div class="user-info">
         <!-- 个人信息 -->
         <el-form label-width="220px">
@@ -377,7 +384,7 @@ export default {
         this.$message.warning('头像未上传成功之前无法保存')
         return
       }
-      await putUserBase({ ...this.userInfo, staffPhoto: fileList[0] })
+      await putUserBase({ ...this.userInfo, staffPhoto: fileList && fileList.length ? fileList[0].url : '' })
       this.$message.success('保存成功')
     },
     async getPersonalDetail() {
@@ -392,7 +399,7 @@ export default {
         this.$message.warning('图片未上传成功之前无法保存')
         return
       }
-      await putPersonal({ ...this.formData, id: this.userId, staffPhoto: fileList[0] })
+      await putPersonal({ ...this.formData, id: this.userId, staffPhoto: fileList && fileList.length ? fileList[0].url : '' })
       this.$message.success('保存成功')
     }
   }

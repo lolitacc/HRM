@@ -56,8 +56,8 @@ export default {
       this.showDialog = true
     },
     handleRemove(file) {
-      this.fileList = []// 不能直接设空，里面还有其他图片
-    //   this.fileList = this.fileList.filter(item => item.uid !== file.uid)
+      // this.fileList = []// 不能直接设空，里面还有其他图片
+      this.fileList = this.fileList.filter(item => item.uid !== file.uid)
     },
     // 修改和上传成功与失败都会调用，所以容易执行两次，不能使用push，使用map
     // 但是这里的地址是本机地址，所以要在下面通过uid找到这个file，把它的地址设置成cos里面的网络地址，file参数不能少，要占位
