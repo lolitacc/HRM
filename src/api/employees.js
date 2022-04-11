@@ -36,3 +36,44 @@ export function impExcelStaff(data) {
     data
   })
 }
+/** *
+ *  获取员工详情的基础信息
+ * **/
+export function getPersonalDetail(id) {
+  return myAxios({
+    url: `/employees/${id}/personalInfo`
+  })
+}
+
+/** *
+ *  更新员工详情的基础信息
+ * **/
+export function putPersonal(data) {
+  return myAxios({
+    url: `/employees/${data.userId}/personalInfo`,
+    method: 'put',
+    data
+  })
+}
+
+/** **
+ * 获取员工的岗位信息
+ *
+ * ****/
+export function getJobDetail(id) {
+  return myAxios({
+    url: `/employees/${id}/jobs`
+  })
+}
+
+/**
+ * 更新员工岗位信息
+ * ****/
+export function putJob(data) {
+  return myAxios({
+    url: `/employees/${data.userId}/jobs`,
+    method: 'put',
+    data
+  })
+}
+

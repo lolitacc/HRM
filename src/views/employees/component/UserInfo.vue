@@ -39,7 +39,7 @@
           <el-row class="inline-info">
             <el-col :span="12">
               <el-form-item label="手机">
-                <el-input v-model="userInfo.mobile" />
+                <el-input v-model="userInfo.mobile" disabled />
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -60,14 +60,14 @@
             <el-col :span="12">
               <el-form-item label="员工头像">
                 <!-- 放置上传图片 -->
-
+                <picture-imp ref="staffAvatar" />
               </el-form-item>
             </el-col>
           </el-row>
           <!-- 保存个人信息 -->
           <el-row class="inline-info" type="flex" justify="center">
             <el-col :span="12">
-              <el-button type="primary" @click="saveUser">保存更新</el-button>
+              <el-button type="primary" @click="putUserBase">保存更新</el-button>
               <el-button @click="$router.back()">返回</el-button>
 
             </el-col>
@@ -76,7 +76,7 @@
         <!-- 基础信息 -->
         <el-form label-width="220px">
           <div class="block">
-            <div class="title">基础信息</div>
+            <el-divider>基础信息</el-divider>
             <el-form-item label="最高学历">
               <el-select v-model="formData.theHighestDegreeOfEducation" class="inputW2">
                 <el-option
@@ -87,11 +87,10 @@
                 />
               </el-select>
             </el-form-item>
-            <!-- 个人头像 -->
-            <!-- 员工照片 -->
-
+            <!-- 员工证件照 -->
             <el-form-item label="员工照片">
               <!-- 放置上传图片 -->
+              <picture-imp ref="personalAvatar" />
             </el-form-item>
             <el-form-item label="国家/地区">
               <el-select v-model="formData.nationalArea" class="inputW2">
@@ -167,10 +166,10 @@
               />
             </el-form-item>
             <el-form-item label="存档机构">
-              <el-input v-model="formData.archivingOrganization" placeholder="请输入" />
+              <el-input v-model="formData.archivingOrganization" placeholder="请输入" style="width:50%" />
             </el-form-item>
             <el-form-item label="子女状态">
-              <el-input v-model="formData.stateOfChildren" placeholder="请输入" />
+              <el-input v-model="formData.stateOfChildren" placeholder="请输入" style="width:50%" />
             </el-form-item>
             <el-form-item label="子女有无商业险">
               <el-radio-group v-model="formData.doChildrenHaveCommercialInsurance">
@@ -179,15 +178,15 @@
               </el-radio-group>
             </el-form-item>
             <el-form-item label="有无违法违纪状态">
-              <el-input v-model="formData.isThereAnyViolationOfLawOrDiscipline" placeholder="请输入" />
+              <el-input v-model="formData.isThereAnyViolationOfLawOrDiscipline" placeholder="请输入" style="width:50%" />
             </el-form-item>
             <el-form-item label="有无重大病史">
-              <el-input v-model="formData.areThereAnyMajorMedicalHistories" placeholder="请输入" />
+              <el-input v-model="formData.areThereAnyMajorMedicalHistories" placeholder="请输入" style="width:50%" />
             </el-form-item>
           </div>
           <!-- 通讯信息 -->
           <div class="block">
-            <div class="title">通讯信息</div>
+            <el-divider>通讯信息</el-divider>
             <el-form-item label="QQ">
               <el-input v-model="formData.qq" placeholder="请输入" class="inputW" />
             </el-form-item>
@@ -195,10 +194,10 @@
               <el-input v-model="formData.wechat" placeholder="请输入" class="inputW" />
             </el-form-item>
             <el-form-item label="现居住地">
-              <el-input v-model="formData.placeOfResidence" placeholder="请输入" />
+              <el-input v-model="formData.placeOfResidence" placeholder="请输入" style="width:60%" />
             </el-form-item>
             <el-form-item label="通讯地址">
-              <el-input v-model="formData.postalAddress" placeholder="请输入" />
+              <el-input v-model="formData.postalAddress" placeholder="请输入" style="width:60%" />
             </el-form-item>
             <el-form-item label="联系手机">
               <el-input v-model="formData.contactTheMobilePhone" placeholder="11位字符" maxlength="11" class="inputW" @change.native="handlePhone(2)" />
@@ -215,7 +214,7 @@
           </div>
           <!-- 账号信息 -->
           <div class="block">
-            <div class="title">账号信息</div>
+            <el-divider>账号信息</el-divider>
             <el-form-item label="社保电脑号">
               <el-input v-model="formData.socialSecurityComputerNumber" placeholder="请输入" class="inputW" />
             </el-form-item>
@@ -231,7 +230,7 @@
           </div>
           <!-- 教育信息 -->
           <div class="block">
-            <div class="title">教育信息</div>
+            <el-divider>教育信息</el-divider>
             <el-form-item label="学历类型">
               <el-select v-model="formData.educationalType" placeholder="请选择">
                 <el-option
@@ -257,7 +256,7 @@
           </div>
           <!-- 从业信息 -->
           <div class="block">
-            <div class="title">从业信息</div>
+            <el-divider>从业信息</el-divider>
             <el-form-item label="上家公司">
               <el-input v-model="formData.homeCompany" placeholder="请输入" class="inputW" />
             </el-form-item>
@@ -265,15 +264,15 @@
               <el-input v-model="formData.title" placeholder="请输入" class="inputW" />
             </el-form-item>
             <el-form-item label="有无竞业限制">
-              <el-input v-model="formData.isThereAnyCompetitionRestriction" placeholder="请输入" style="width:80%" />
+              <el-input v-model="formData.isThereAnyCompetitionRestriction" placeholder="请输入" style="width:50%" />
             </el-form-item>
             <el-form-item label="备注">
-              <el-input v-model="formData.remarks" type="textarea" placeholder="请输入备注" style="width:80%" />
+              <el-input v-model="formData.remarks" type="textarea" placeholder="请输入备注" style="width:50%" />
             </el-form-item>
             <!-- 保存员工信息 -->
             <el-row class="inline-info" type="flex" justify="center">
               <el-col :span="12">
-                <el-button type="primary" @click="savePersonal">保存更新</el-button>
+                <el-button type="primary" @click="putPersonal">保存更新</el-button>
                 <el-button @click="$router.back()">返回</el-button>
               </el-col>
             </el-row>
@@ -287,6 +286,8 @@
 <script>
 // 引入员工枚举数据
 import StaffEnum from '@/api/constant/employees'
+import { getUserBaseById, putUserBase } from '@/api/user'
+import { getPersonalDetail, putPersonal } from '@/api/employees'
 export default {
   data() {
     return {
@@ -356,6 +357,43 @@ export default {
         proofOfDepartureOfFormerCompany: '', // 前公司离职证明
         remarks: '' // 备注
       }
+    }
+  },
+  mounted() {
+    this.getUserBaseById()
+    this.getPersonalDetail()
+  },
+  methods: {
+    async getUserBaseById() {
+      this.userInfo = await getUserBaseById(this.userId)
+      if (this.userInfo.staffPhoto && this.userInfo.staffPhoto.trim()) {
+        this.$refs.staffAvatar.fileList = [{ url: this.userInfo.staffPhoto, upload: true }]
+      }
+    },
+    async putUserBase() {
+      // 判断是否上传完毕，没完成之前不能点保存
+      const fileList = this.$refs.staffAvatar.fileList
+      if (fileList.some(item => !item.upload)) {
+        this.$message.warning('头像未上传成功之前无法保存')
+        return
+      }
+      await putUserBase({ ...this.userInfo, staffPhoto: fileList[0] })
+      this.$message.success('保存成功')
+    },
+    async getPersonalDetail() {
+      this.formData = await getPersonalDetail(this.userId)
+      if (this.formData.staffPhoto && this.formData.staffPhoto.trim()) {
+        this.$refs.personalAvatar.fileList = [{ url: this.formData.staffPhoto, upload: true }]
+      }
+    },
+    async putPersonal() {
+      const fileList = this.$refs.personalAvatar.fileList
+      if (fileList.some(item => !item.upload)) {
+        this.$message.warning('图片未上传成功之前无法保存')
+        return
+      }
+      await putPersonal({ ...this.formData, id: this.userId, staffPhoto: fileList[0] })
+      this.$message.success('保存成功')
     }
   }
 }

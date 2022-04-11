@@ -5,7 +5,7 @@
         <!-- 基础信息 -->
         <el-form label-width="220px">
           <div class="block">
-            <div class="title">基础信息</div>
+            <el-divider>基础信息</el-divider>
             <el-form-item label="岗位">
               <el-input v-model="formData.post" placeholder="请输入" class="inputW" />
             </el-form-item>
@@ -34,12 +34,13 @@
             </el-form-item>
             <el-form-item label="汇报对象">
               <el-select v-model="formData.reportId" filterable placeholder="请选择" class="inputW">
-                <el-option v-for="item in depts" :key="item.id" :label="item.username" :value="item.id" />
+                <el-option v-for="item in staffs" :key="item.id" :label="item.username" :value="item.id" />
+                <!-- 循环员工名称数组选择汇报人 -->
               </el-select>
             </el-form-item>
             <el-form-item label="HRBP">
               <el-select v-model="formData.hrbp" filterable placeholder="请选择" class="inputW">
-                <el-option v-for="item in depts" :key="item.id" :label="item.username" :value="item.id" class="inputW" />
+                <el-option v-for="item in staffs" :key="item.id" :label="item.username" :value="item.id" class="inputW" />
               </el-select>
             </el-form-item>
             <el-form-item class="formInfo" label="调整司龄(天)：">
@@ -59,7 +60,7 @@
           </div>
           <!-- 合同信息 -->
           <div class="block">
-            <div class="title">合同信息</div>
+            <el-divider>合同信息</el-divider>
             <el-form-item class="formInfo" label="首次合同开始时间：">
               <el-date-picker
                 v-model="formData.initialContractStartTime"
@@ -115,7 +116,7 @@
           </div>
           <!-- 招聘信息 -->
           <div class="block">
-            <div class="title">招聘信息</div>
+            <el-divider>招聘信息</el-divider>
             <el-form-item label="其他招聘渠道">
               <el-select v-model="formData.otherRecruitmentChannels" placeholder="请选择">
                 <el-option
@@ -152,7 +153,7 @@
           </div>
           <!-- 从业信息 -->
           <el-form-item>
-            <el-button type="primary" @click="saveJob">保存更新</el-button>
+            <el-button type="primary" @click="putJob">保存更新</el-button>
             <el-button @click="$router.back()">返回</el-button>
           </el-form-item>
         </el-form>
@@ -163,12 +164,12 @@
 
 <script>
 import EmployeeEnum from '@/api/constant/employees'
-
+import { getJobDetail, putJob, getStaffSimple } from '@/api/employees'
 export default {
   data() {
     return {
       userId: this.$route.params.id,
-      depts: [],
+      staffs: [],
       EmployeeEnum,
       formData: {
         adjustmentAgedays: '', // 调整司龄天
@@ -199,7 +200,25 @@ export default {
         workingTimeForTheFirstTime: '' // 首次参加工作时间
       }
     }
+  },
+  mounted() {
+    this.getJobDetail()
+    this.getStaffSimple
+  },
+  methods: {
+    async getJobDetail() {
+      await getJobDetail(this.userId)
+    },
+    async putJob() {
+      await putJob(this.formData)
+      this.$message.success('更新岗位信息成功')
+    },
+    // 将hrbp、汇报对象编号转换为员工名字
+    async getStaffSimple() {
+      this.staffs = await getStaffSimple()
+    }
   }
+
 }
 
 </script>

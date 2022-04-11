@@ -23,7 +23,7 @@ export function getUserBaseById(id) {
     url: `/sys/user/${id}`// axios默认get请求，可以不写请求方式 这里的id是传入的参数
   })
 }
-// 修改密码的接口
+// 修改基础信息的接口
 export function putUserBase(data) {
   return myAxios({
     url: `/sys/user/${data.id}`,

@@ -5,6 +5,7 @@
       <span slot="before">aaaaaaaa</span>
       <el-button slot="after" type="primary">btn</el-button>
     </page-tool>
+    <picture-imp />
   </div>
 </template>
 
