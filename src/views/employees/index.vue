@@ -50,7 +50,7 @@
           <el-table-column align="center" label="操作" sortable="" fixed="right" width="280">
             <template slot-scope="{row}">
               <el-button type="text" size="small" @click="$router.push(`/employees/details/${row.id}`)">查看</el-button>
-              <el-button type="text" size="small">职位</el-button>
+              <el-button type="text" size="small" @click="assignRole(row.id)">职位角色</el-button>
               <el-button type="text" size="small">转正</el-button>
               <el-button type="text" size="small">调岗</el-button>
               <el-button type="text" size="small">离职</el-button>
@@ -76,6 +76,7 @@
       </el-card>
       <!-- 添加弹层 -->
       <add-employee :dialog-visible.sync="dialogVisible" />
+      <assign-role ref="assignRoles" :role-visible.sync="roleVisible" :user-id="userId" />
     </div>
   </div>
 </template>
@@ -87,8 +88,14 @@ import staffEnum from '@/api/constant/employees'
 import AddEmployee from './component/AddEmployee.vue'
 // 引入格式化时间后面0的方法
 import { formatDate } from '@/filters'
+// 引入分配角色的弹层组件
+import AssignRole from './component/AssignRole.vue'
 export default {
-  components: { AddEmployee },
+  components: {
+    AddEmployee,
+    AssignRole
+
+  },
   data() {
     return {
       loading: false,
@@ -98,7 +105,9 @@ export default {
         size: 10,
         total: 0
       },
-      dialogVisible: false
+      dialogVisible: false,
+      roleVisible: false,
+      userId: ''
     }
   },
   created() {
@@ -168,6 +177,11 @@ export default {
           }
         })
       })
+    },
+    async assignRole(id) {
+      this.userId = id// props赋值是异步的，assign组件在在调用API的时候拿不到这个id，所以在父组件这里调用这个方法
+      await this.$refs.assignRoles.getUserRole(id)
+      this.roleVisible = true
     }
 
   }

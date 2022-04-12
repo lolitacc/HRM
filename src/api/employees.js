@@ -76,4 +76,13 @@ export function putJob(data) {
     data
   })
 }
-
+/**
+ * 分配角色
+ */
+export function assignRoles(data) {
+  return myAxios({
+    url: '/sys/user/assignRoles',
+    data,
+    method: 'put'
+  })
+}

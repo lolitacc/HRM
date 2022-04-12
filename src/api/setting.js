@@ -20,7 +20,7 @@ export function delRole(id) {
     method: 'delete'
   })
 }
-// 根据id获取角色信息接口
+// 根据id获取角色详情接口
 export function getRoleById(id) {
   return myAxios({
     url: `/sys/role/${id}`
