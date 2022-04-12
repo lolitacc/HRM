@@ -51,6 +51,7 @@
           <el-button type="primary" @click="checkCommit">确 定</el-button>
         </div>
       </el-dialog>
+
     </div>
   </div>
 </template>

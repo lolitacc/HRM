@@ -1,5 +1,6 @@
 import { getToken, setToken, removeToken, setTokenTimeStamp, removeTokenTimeStamp } from '@/utils/auth'
 import { login, getUserInfo, getUserBaseById } from '@/api/user'
+import { resetRouter } from '@/router'
 const state = {
   token: getToken(), // 初始化vuex时，优先从缓存中读取token
   userInfo: {} // 用户信息
@@ -44,6 +45,9 @@ const actions = {
   logout(context) {
     context.commit('RemoveToken')
     context.commit('removeUserInfo')
+    resetRouter()// router里面重置路由规则的方法，也只有初始挂载的静态路由了
+    // 退出还原vuex里面routes，把动态路由置空，调用父组件的mutations
+    context.commit('permission/setRoutes', [], { root: true })
   }
 }
 

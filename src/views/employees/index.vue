@@ -49,7 +49,7 @@
           </el-table-column>
           <el-table-column align="center" label="操作" sortable="" fixed="right" width="280">
             <template slot-scope="{row}">
-              <el-button type="text" size="small" @click="$router.push(`/employees/details/${row.id}`)">查看</el-button>
+              <el-button type="text" size="small" :disabled="!checkPermission('POINT-USER-UPDATE')" @click="$router.push(`/employees/details/${row.id}`)">查看</el-button>
               <el-button type="text" size="small" @click="assignRole(row.id)">职位角色</el-button>
               <el-button type="text" size="small">转正</el-button>
               <el-button type="text" size="small">调岗</el-button>

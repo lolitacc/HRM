@@ -1,6 +1,5 @@
 import myAxios from '@/utils/request'
 export function imgDownload(data) {
-  debugger
   return myAxios({
     url: `/system/upfile/${data.id}`
   })

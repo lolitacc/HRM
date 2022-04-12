@@ -17,6 +17,8 @@ import '@/permission' // 路由鉴权文件
 import * as directives from '@/directives'// 引入自定义指令
 import * as filters from '@/filters'// 引入自定义指令
 import Component from '@/components'
+import checkPermission from '@/mixin/checkPermission'
+
 // 迭代  注册全局指令
 Object.keys(directives).forEach(key => {
   Vue.directive(key, directives[key])
@@ -27,6 +29,7 @@ Object.keys(filters).forEach(key => {
 })
 Vue.use(Component)
 Vue.use(ElementUI)
+Vue.mixin(checkPermission)
 
 Vue.config.productionTip = false
 

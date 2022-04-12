@@ -11,6 +11,7 @@
                 type="primary"
                 icon="el-icon-plus"
                 size="small"
+                @click="dialogVisible = true"
               >新增职位</el-button>
             </el-row>
             <el-table :data="roleList" border>
@@ -29,7 +30,7 @@
               <el-table-column align="center" prop="description" label="描述" />
               <el-table-column align="center" prop="prop" label="操作">
                 <template slot-scope="{row}">
-                  <el-button size="small" type="success">分配权限</el-button>
+                  <el-button size="small" type="success" @click="assignPerm(row.id)">分配权限</el-button>
                   <el-button size="small" type="primary" @click="editRole(row.id)">编辑</el-button>
                   <el-button size="small" type="danger" @click="delRole(row.id)">删除</el-button>
                   <!-- 利用el-table的作用域插槽属性 -->
@@ -84,7 +85,7 @@
             </el-form></el-tab-pane>
         </el-tabs>
         <el-dialog
-          title="编辑职位"
+          :title="`${roleType}职位`"
           :visible="dialogVisible"
           @close="cancel"
         >
@@ -103,17 +104,41 @@
           </div>
         </el-dialog>
       </el-card>
+      <!-- 给职位分配权限 -->
+      <el-dialog
+        title="为此职位分配权限点"
+        :visible.sync="permVisible"
+        :before-close="permCancel"
+      >
+        <el-tree
+          ref="permTree"
+          :data="permData"
+          :props="permProp"
+          :show-checkbox="true"
+          :check-strictly="true"
+          :default-expand-all="true"
+          :default-checked-keys="checkedPerm"
+          node-key="id"
+        />
+        <div slot="footer">
+          <el-button @click="permCancel">取 消</el-button>
+          <el-button type="primary" @click="permCommit">确 定</el-button>
+        </div>
+      </el-dialog>
     </div>
   </div>
+
 </template>
 <script>
 import { getRoleList, getCompanyInfo, delRole, getRoleById, putRole, addRole } from '@/api/setting'
 import { mapGetters } from 'vuex'
+import { assignPerm, getPermissionList } from '@/api/permission'
+import { turnTreeData } from '@/utils'
 export default {
   data() {
     return {
-      formData: {},
-      roleList: [], // 承接请求回来的数组
+      formData: {}, // 公司信息表单
+      roleList: [], // 承接请求回来的职位数组
       params: {
         page: 1, // 请求的页数
         pagesize: 10, // 每页的请求条数
@@ -123,10 +148,19 @@ export default {
       rules: { // 校验规则
         name: [{ required: true, message: '职位名称不能为空', trigger: 'blur' }]
       },
-      dialogVisible: false
+      dialogVisible: false, // 编辑职位信息弹层的显示
+      permVisible: false, // 给职位分配权限弹层的显示
+      permData: [], // tree接收的多维数组
+      permProp: { label: 'name' }, // tree展示的prop配置不写就是默认
+      checkedPerm: [], // 该角色读取到的权限点
+      roleId: ''//  记录一个id，提交的时候存到一个id里
+
     }
   },
   computed: {
+    roleType() {
+      return this.roleForm.id ? '编辑' : '新增'
+    },
     ...mapGetters(['companyId'])
   },
   created() {
@@ -147,7 +181,6 @@ export default {
     },
     async getCompanyInfo() {
       this.formData = await getCompanyInfo(this.companyId)
-      console.log(this.formData)
     },
     async delRole(id) {
       try {
@@ -192,6 +225,23 @@ export default {
       // 移除校验
       this.$refs.roleForm.resetFields()
       this.dialogVisible = false
+    },
+    async assignPerm(id) {
+      this.permData = turnTreeData(await getPermissionList(), '0') // 在分配角色展示树形可选择框的数结构
+      const { permIds } = await getRoleById(id) // 获取到改职位角色数据库里已被写的权限点，进行数据回写
+      this.checkedPerm = permIds
+      this.roleId = id
+      this.permVisible = true
+    },
+    async permCommit() {
+    // getgetCheckedKeys是el的方法，获取此时被选择的权限
+      await assignPerm({ permIds: this.$refs.permTree.getCheckedKeys(), id: this.roleId })
+      this.$message.success('分配权限成功')
+      this.permVisible = false
+    },
+    permCancel() {
+      this.checkedPerm = []
+      this.permVisible = false
     }
   }
 }

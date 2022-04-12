@@ -1,4 +1,4 @@
-// 引入路由 和token
+// Axios权限拦截器页面 引入路由 和token
 import router from '@/router'
 import store from '@/store'
 // 引入进度条 及其样式
@@ -15,10 +15,15 @@ router.beforeEach(async(to, from, next) => {
     } else { // 有token且在非登录页面，才获取用户信息
       if (!store.getters.userId) {
         // 如果没有id这个值 才会调用 vuex的获取资料的action
-        await store.dispatch('user/getUserInfo')
-        // 为什么要写await 因为我们想获取完资料再去放行
+        const { roles } = await store.dispatch('user/getUserInfo') // 该接口可以获取到menu
+        // 调用用户权限的vuex，存入用户的routes里面
+        const permRoutes = await store.dispatch('permission/filterRoutes', roles.menus)
+        // 404 通配报错页面 要在所有路由后面
+        router.addRoutes(([...permRoutes, { path: '*', redirect: '/404', hidden: true }]))// 这里permroutes是控制路由跳转的
+        next(to.path)// 多做一次跳转  next()+to.path
+      } else {
+        next() // 其他===有用户资料直接放行
       }
-      next() // 其他直接放行
     }
   } else {
     if (whiteList.includes(to.path)) { // 没有token情况，如果在白名单里面直接放行

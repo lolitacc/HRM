@@ -17,13 +17,13 @@
         <el-table :data="list" style="width: 100%" :default-sort="{prop: 'date', order: 'descending'}">
           <el-table-column type="index" width="50" label="序号" />
           <el-table-column prop="username" label="姓名" sortable />
-          <el-table-column prop="mobile" label="手机" sortable />
+          <el-table-column prop="mobile" label="手机" width="180" sortable />
           <el-table-column prop="workNumber" label="工号" sortable />
-          <el-table-column prop="departmentName" label="部门" sortable width="180" />
-          <el-table-column prop="timeOfEntry" label="入职时间" sortable />
-          <el-table-column prop="leaveTime" label="离职时间" sortable />
-          <el-table-column prop="participatingInTheCity" label="社保城市" width="180" />
-          <el-table-column prop="providentFundCity" label="公积金城市" width="180" />
+          <el-table-column prop="departmentName" label="部门" sortable />
+          <el-table-column prop="timeOfEntry" label="入职时间" sortablewidth="180" />
+          <el-table-column prop="leaveTime" label="离职时间" sortablewidth="180" />
+          <el-table-column prop="participatingInTheCity" label="社保城市" />
+          <el-table-column prop="providentFundCity" label="公积金城市" />
           <el-table-column prop="socialSecurityBase" label="社保基数" />
           <el-table-column prop="providentFundBase" label="公积金基数" />
           <el-table-column label="操作">

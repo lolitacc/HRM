@@ -49,30 +49,26 @@ export const constantRoutes = [
       path: '', // path为空表示默认二级路由
       component: () => import('@/views/impexcel/index')// 引入导入excel组件
     }]
-  },
+  }
 
-  // 404 通配报错页面
-  { path: '*', redirect: '/404', hidden: true }
 ]
 // 动态路由
 export const asyncRoutes = [
   approvalsRoute,
+  settingRoute,
   departmentsRoute,
   employeesRoute,
   permissionRoute,
-  attendancesRoute,
   salarysRoute,
-  settingRoute,
-  socialRoute
+  socialRoute,
+  attendancesRoute
 ]
 const createRouter = () => new Router({
-  // mode: 'history', // require service support
   scrollBehavior: () => ({ y: 0 }),
-  routes: [...constantRoutes, ...asyncRoutes]// 临时合并
+  routes: [...constantRoutes]
 })
-
 const router = createRouter()
-
+// 此方法用于退出时还原初始化的路由配置，避免进入不该进的页面
 export function resetRouter() {
   const newRouter = createRouter()
   router.matcher = newRouter.matcher // reset router

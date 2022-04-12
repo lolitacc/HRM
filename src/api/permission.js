@@ -1,5 +1,5 @@
 import myAxios from '@/utils/request'
-// 获取权限
+// 获取权限列表
 export function getPermissionList() {
   return myAxios({
     url: '/sys/permission'
@@ -30,9 +30,17 @@ export function delPermission(id) {
     method: 'delete'
   })
 }
-// 获取权限详情
+// 根据获取权限详情
 export function getPermissionDetail(id) {
   return myAxios({
     url: `/sys/permission/${id}`
+  })
+}
+// 给职位角色分配权限
+export function assignPerm(data) {
+  return myAxios({
+    url: '/sys/role/assignPrem',
+    method: 'put',
+    data
   })
 }

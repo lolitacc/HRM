@@ -13,14 +13,14 @@ export function getCompanyInfo(id) {
     url: `/company/${id}`
   })
 }
-// 根据id删除角色
+// 根据id删除职位角色
 export function delRole(id) {
   return myAxios({
     url: `/sys/role/${id}`,
     method: 'delete'
   })
 }
-// 根据id获取角色详情接口
+// 根据id获取职位角色详情接口
 export function getRoleById(id) {
   return myAxios({
     url: `/sys/role/${id}`
