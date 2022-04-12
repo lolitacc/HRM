@@ -1,11 +1,12 @@
-import myAxios from '@/utils/request'
+import request from '@/utils/request'
 export function imgDownload(data) {
-  return myAxios({
+  debugger
+  return request({
     url: `/system/upfile/${data.id}`
   })
 }
 export function imgUpload(data) {
-  return myAxios({
+  return request({
     url: '/system/upfile',
     data,
     type: 'post'
@@ -13,12 +14,12 @@ export function imgUpload(data) {
 }
 
 export function getCityJSON() {
-  return myAxios({
+  return request({
     url: '../../static/json/map.json'
   })
 }
 export function getCityList() {
-  return myAxios({
+  return request({
     url: '/sys/city'
   })
 }

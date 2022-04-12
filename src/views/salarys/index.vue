@@ -2,14 +2,14 @@
   <div class="dashboard-container">
     <div class="app-container">
       <!-- 工具栏 -->
-      <page-tool :show-before="true">
+      <page-tools :show-before="true">
         <!-- 前面内容 -->
         <template v-slot:before>{{ tipsInfo }}</template>
         <template v-slot:after>
           <el-button size="mini" type="danger" @click="$router.push('/salarys/setting')">设置</el-button>
           <el-button size="mini" type="primary" @click="$router.push(`/salarys/monthStatement?yearMonth=${yearMonth}`)">{{ yearMonth }}报表</el-button>
         </template>
-      </page-tool>
+      </page-tools>
       <!-- 条件筛选 -->
       <el-card class="hr-block">
         <el-form label-width="120px">

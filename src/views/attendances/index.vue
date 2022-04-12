@@ -2,7 +2,7 @@
   <div v-loading="loading" class="dashboard-container">
     <div class="app-container">
       <!-- 工具栏 -->
-      <page-tool :show-before="true">
+      <page-tools :show-before="true">
         <!-- 前面内容 -->
         <template v-slot:before>有 {{ attendInfo.tobeTaskCount }} 条考勤审批尚未处理</template>
         <template v-slot:after>
@@ -12,7 +12,7 @@
           <el-button size="mini" type="default" @click="$router.push('/attendances/archiving/')">历史归档</el-button>
           <el-button size="mini" type="primary" @click="$router.push({'path':'/attendances/report/'+ yearMonth})">{{ yearMonth }}报表</el-button>
         </template>
-      </page-tool>
+      </page-tools>
       <el-card class="hr-block">
         <el-form ref="formData" :model="formData" label-width="120px" class="formInfo">
           <el-form-item label="部门:">

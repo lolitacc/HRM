@@ -11,7 +11,7 @@ const salaryRouter = {
       component: () => import('@/views/salarys'),
       name: 'salarys',
       meta: {
-        title: '薪酬管理',
+        title: '工资',
         icon: 'money'
       }
     },

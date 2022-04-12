@@ -1,39 +1,39 @@
-import myAxios from '@/utils/request'
+import request from '@/utils/request'
 // 获取考勤列表
 export function getAttendancesList(params) {
-  return myAxios({
+  return request({
     url: '/attendances',
     params
   })
 }
 // 获取考勤详情
 export function getAtteArchiveDetail(data) {
-  return myAxios({
+  return request({
     url: `/attendances/archive/${data.userId}/${data.yearMonth}`
   })
 }
 export function updateAttendance(data) {
-  return myAxios({
+  return request({
     url: `/attendances/${data.userId}`,
     method: 'put',
     data
   })
 }
 export function getArchivingList(params) {
-  return myAxios({
+  return request({
     url: '/attendances/reports/year',
     params
   })
 }
 export function getArchivingCont(params) {
-  return myAxios({
+  return request({
     url: `/attendances/reports/${params.atteArchiveMonthlyId}`,
     params
   })
 }
 
 export function importArchive(data) {
-  return myAxios({
+  return request({
     url: '/archive/atte/export',
     method: 'post',
     data
@@ -41,32 +41,32 @@ export function importArchive(data) {
 }
 // 提醒接口
 export function notify() {
-  return myAxios({
+  return request({
     url: '/notify/mail',
     method: 'post'
   })
 }
 export function archives(params) {
-  return myAxios({
+  return request({
     url: '/attendances/archives',
     params
   })
 }
 export function newReports(params) {
-  return myAxios({
+  return request({
     url: '/attendances/newReports',
     params
   })
 }
 export function information() {
-  return myAxios({})
+  return request({})
 }
 
 export function pay() {
-  return myAxios({})
+  return request({})
 }
 export function reportFormList(params) {
-  return myAxios({
+  return request({
     url: '/attendances/reports',
     params
   })
@@ -74,7 +74,7 @@ export function reportFormList(params) {
 
 // 请假保存
 export function leaveSave(data) {
-  return myAxios({
+  return request({
     url: '/cfg/leave',
     method: 'put',
     data
@@ -82,7 +82,7 @@ export function leaveSave(data) {
 }
 // 请假获取
 export function getLeave(data) {
-  return myAxios({
+  return request({
     url: '/cfg/leave/list',
     method: 'post',
     data
@@ -90,7 +90,7 @@ export function getLeave(data) {
 }
 // 扣款设置保存
 export function deductionsSave(data) {
-  return myAxios({
+  return request({
     url: '/cfg/deduction',
     method: 'put',
     data
@@ -98,7 +98,7 @@ export function deductionsSave(data) {
 }
 // 获取扣款设置
 export function getDeductions(data) {
-  return myAxios({
+  return request({
     url: '/cfg/ded/list',
     method: 'post',
     data
@@ -107,7 +107,7 @@ export function getDeductions(data) {
 
 // 加班配置保存
 export function overtimeSave(data) {
-  return myAxios({
+  return request({
     url: '/cfg/extDuty',
     method: 'put',
     data
@@ -116,7 +116,7 @@ export function overtimeSave(data) {
 
 // 获取加班配置
 export function getOvertime(data) {
-  return myAxios({
+  return request({
     url: '/cfg/extDuty/item',
     method: 'post',
     data
@@ -124,7 +124,7 @@ export function getOvertime(data) {
 }
 // 考勤数据保存
 export function attendanceSave(data) {
-  return myAxios({
+  return request({
     url: '/cfg/atte',
     method: 'put',
     data
@@ -132,14 +132,14 @@ export function attendanceSave(data) {
 }
 // 考勤数据保存
 export function getAttendance(data) {
-  return myAxios({
+  return request({
     url: '/cfg/atte/item',
     method: 'post',
     data
   })
 }
 export function fileUpdate(data) {
-  return myAxios({
+  return request({
     url: `/employees/archives/${data.month}`,
     method: 'put',
     data
