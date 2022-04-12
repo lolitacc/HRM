@@ -11,7 +11,7 @@ const attendRouter = {
       component: () => import('@/views/attendances'),
       name: 'attendances',
       meta: {
-        title: '考勤',
+        title: '考勤信息',
         icon: 'excel' }
     },
     {

@@ -16,6 +16,8 @@
         </div>
       </div>
     </div>
+    <br>
+    <br>
     <div v-loading="loading" class="historicalTable">
       <div v-show="showArchivig" class="archivig">该年份无归档报表</div>
       <div v-for="( itemes, index) in tableData" :key="index" class="itemes">
@@ -310,12 +312,12 @@ export default {
             position: relative;
             bottom: -2px;
             font-size: 13px;
-            color: #999;
+            color: rgb(250, 114, 196);
             margin-left: 5px;
           }
         }
         .itemTit {
-          color: #999;
+          color: rgb(245, 110, 182);
           margin: 8px 0;
           font-size: 13px;
         }

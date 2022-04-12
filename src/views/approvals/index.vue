@@ -2,18 +2,17 @@
   <div v-loading="loading" class="dashboard-container">
     <div class="app-container">
       <!-- 工具栏 -->
-      <page-tools :show-before="true">
+      <page-tool :show-before="true">
         <!-- 前面内容 -->
-        <template v-slot:before>当前审批中 0 本月审批通过 1 本月审批驳回 0</template>
+        <span slot="before"> 当前审批中 0 本月审批通过 1 本月审批驳回 0</span>
         <template v-slot:after>
           <el-button size="mini" type="primary" @click="$router.push('/approvals/securitySetting')">流程设置</el-button>
         </template>
-      </page-tools>
+      </page-tool>
       <!-- <ApprovalPageTool /> -->
       <el-card class="hr-block">
-        <el-table :data="list" style="width: 100%" :default-sort="{prop: 'date', order: 'descending'}">
-          <el-table-column type="selection" width="30" />
-          <el-table-column type="index" width="80" label="序号" />
+        <el-table :data="list" border style="width: 100%" :default-sort="{prop: 'date', order: 'descending'}">
+          <el-table-column align="center" type="index" width="80" label="序号" />
           <el-table-column prop="processName" label="审批类型" sortable />
           <el-table-column prop="username" label="申请人" sortable />
           <el-table-column prop="procCurrNodeUserName" label="当前审批人" sortable />

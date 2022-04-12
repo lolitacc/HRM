@@ -54,13 +54,13 @@ export const constantRoutes = [
 ]
 // 动态路由
 export const asyncRoutes = [
-  approvalsRoute,
   settingRoute,
   departmentsRoute,
+  approvalsRoute,
   employeesRoute,
   permissionRoute,
-  salarysRoute,
   socialRoute,
+  salarysRoute,
   attendancesRoute
 ]
 const createRouter = () => new Router({

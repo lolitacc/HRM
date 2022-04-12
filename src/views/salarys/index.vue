@@ -2,14 +2,14 @@
   <div class="dashboard-container">
     <div class="app-container">
       <!-- 工具栏 -->
-      <page-tools :show-before="true">
+      <page-tool :show-before="true">
         <!-- 前面内容 -->
         <template v-slot:before>{{ tipsInfo }}</template>
         <template v-slot:after>
           <el-button size="mini" type="danger" @click="$router.push('/salarys/setting')">设置</el-button>
           <el-button size="mini" type="primary" @click="$router.push(`/salarys/monthStatement?yearMonth=${yearMonth}`)">{{ yearMonth }}报表</el-button>
         </template>
-      </page-tools>
+      </page-tool>
       <!-- 条件筛选 -->
       <el-card class="hr-block">
         <el-form label-width="120px">
@@ -159,7 +159,7 @@ export default {
   methods: {
     // 对聘用形式进行文本显示
     formatEmployment(row) {
-      const data = this.approvalsType.find(item => item.id === row.formOfEmployment.toString())
+      const data = this.approvalsType.find(item => item.id === row.formOfEmployment)
       return data ? data.value : '未知'
     },
     async  getSalarysList() {
