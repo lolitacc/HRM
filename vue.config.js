@@ -8,22 +8,38 @@ function resolve(dir) {
 
 const name = defaultSettings.title || 'vue Admin Template' // page title
 
-// If your port is set to 80,
-// use administrator privileges to execute the command line.
-// For example, Mac: sudo npm run
-// You can change the port by the following methods:
-// port = 9528 npm run dev OR npm run dev --port = 9528
 const port = process.env.port || process.env.npm_config_port || 9528 // dev port
-
-// All configuration item explanations can be find in https://cli.vuejs.org/config/
+let cdn = { css: [], js: [] }
+// 通过环境变量 来区分是否使用cdn
+const isProd = process.env.NODE_ENV === 'production' // 判断是否是生产环境
+let externals = {}
+if (isProd) {
+  // 如果是生产环境 就排除打包 否则不排除
+  // key是要忽略的包名，value是cdn引入的文件里面的全局变量，先排除这些包名，空出来的位置用后面变量替换
+  externals = {
+    // key(包名) / value(这个值 是 需要在CDN中获取js, 相当于 获取的js中 的该包的全局的对象的名字)
+    'vue': 'Vue', // 后面的名字不能随便起 应该是 js中的全局对象名
+    'element-ui': 'ELEMENT', // 都是js中全局定义的
+    'xlsx': 'XLSX' // 都是js中全局定义的
+  }
+  cdn = {
+    css: [
+    // element-ui css
+      'https://unpkg.com/element-ui/lib/theme-chalk/index.css', // 样式表
+      'https://unpkg.com/element-ui/lib/theme/index.css' // 样式表
+    ],
+    js: [
+    // vue must at first!
+      'https://cdn.jsdelivr.net/npm/vue@2.6.14', // vuejs
+      // element-ui js
+      'https://unpkg.com/element-ui/lib/index.js', // elementUI
+      'https://cdn.jsdelivr.net/npm/xlsx@0.16.6/dist/jszip.min.js',
+      'https://cdn.jsdelivr.net/npm/xlsx@0.16.6/dist/xlsx.full.min.js'
+    ]
+  }
+}
 module.exports = {
-  /**
-   * You will need to set publicPath if you plan to deploy your site under a sub path,
-   * for example GitHub Pages. If you plan to deploy your site to https://foo.github.io/bar/,
-   * then publicPath should be set to "/bar/".
-   * In most cases please use '/' !!!
-   * Detail: https://cli.vuejs.org/config/#publicpath
-   */
+
   publicPath: '/',
   outputDir: 'dist',
   assetsDir: 'static',
@@ -45,27 +61,29 @@ module.exports = {
 
   },
   configureWebpack: {
-    // provide the app's title in webpack's name field, so that
-    // it can be accessed in index.html to inject the correct title.
+
     name: name,
     resolve: {
       alias: {
         '@': resolve('src')
       }
-    }
+    },
+    // 排除 elementUI xlsx  和 vue
+    externals: externals
+
   },
   chainWebpack(config) {
-    // it can improve the speed of the first screen, it is recommended to turn on preload
     config.plugin('preload').tap(() => [
       {
         rel: 'preload',
-        // to ignore runtime.js
-        // https://github.com/vuejs/vue-cli/blob/dev/packages/@vue/cli-service/lib/config/app.js#L171
         fileBlacklist: [/\.map$/, /hot-update\.js$/, /runtime\..*\.js$/],
         include: 'initial'
       }
     ])
-
+    config.plugin('html').tap(args => {
+      args[0].cdn = cdn
+      return args
+    })
     // when there are many pages, it will cause too many meaningless requests
     config.plugins.delete('prefetch')
 

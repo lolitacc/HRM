@@ -64,7 +64,9 @@ export const asyncRoutes = [
   attendancesRoute
 ]
 const createRouter = () => new Router({
-  scrollBehavior: () => ({ y: 0 }),
+  mode: 'history', // history模式
+  base: '/hr/', // 配置项目的基础地址
+  scrollBehavior: () => ({ y: 0 }), // 管理滚动
   routes: [...constantRoutes]
 })
 const router = createRouter()
