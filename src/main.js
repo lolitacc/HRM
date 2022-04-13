@@ -15,7 +15,7 @@ import router from './router'
 import '@/icons' // icon
 import '@/permission' // 路由鉴权文件
 import * as directives from '@/directives'// 引入自定义指令
-import * as filters from '@/filters'// 引入自定义指令
+import * as filters from '@/filters'// 引入过滤器
 import Component from '@/components'
 import checkPermission from '@/mixin/checkPermission'
 

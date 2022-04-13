@@ -9,7 +9,7 @@ import attendancesRoute from './modules/attendances'
 import salarysRoute from './modules/salarys'
 import settingRoute from './modules/setting'
 import socialRoute from './modules/social'
-
+import userRoute from './modules/user'
 Vue.use(Router)
 
 /* 布局 */
@@ -49,8 +49,8 @@ export const constantRoutes = [
       path: '', // path为空表示默认二级路由
       component: () => import('@/views/impexcel/index')// 引入导入excel组件
     }]
-  }
-
+  },
+  userRoute
 ]
 // 动态路由
 export const asyncRoutes = [

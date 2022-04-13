@@ -37,9 +37,9 @@
 </template>
 
 <script>
-import { getUserDetailById } from '@/api/user'
+import { getUserBaseById } from '@/api/user'
 import { updateUser } from '@/api/approvals'
-import { updatePersonal, getPersonalDetail } from '@/api/employees'
+import { putPersonal, getPersonalDetail } from '@/api/employees'
 import { mapGetters } from 'vuex'
 export default {
   name: 'UsersTableIndex',
@@ -62,7 +62,7 @@ export default {
     async onSubmit() {
       const user = this.myInfo
       await updateUser(user)
-      await updatePersonal(user)
+      await putPersonal(user)
       this.$message.success('保存成功')
     },
     onCancel() {
@@ -70,7 +70,7 @@ export default {
     },
     async getUserInfo() {
       this.loading = true
-      const detailData = await getUserDetailById(this.userId)
+      const detailData = await getUserBaseById(this.userId)
       const personData = await getPersonalDetail(this.userId)
       detailData.sex = personData.sex
       detailData.dateOfBirth = personData.dateOfBirth

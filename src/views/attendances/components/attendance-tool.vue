@@ -32,7 +32,7 @@
 
 <script>
 // import { notify } from '@/api/attendances'
-import employeesSet from './set'
+import employeesSet from './attendance-set.vue'
 export default {
   name: 'AttendancesPageTool',
   components: {

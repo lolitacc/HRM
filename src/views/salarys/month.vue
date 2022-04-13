@@ -75,7 +75,7 @@ export default {
       return data.inServiceStatus === '1' ? '在职' : '离职'
     },
     async getArchivingCont() {
-      this.loading = true
+      // this.loading = true
       const yearMonth = this.yearMonth
       this.contentData = await getArchivingCont({ yearMonth, opType: 1 })
       this.loading = false
@@ -98,19 +98,6 @@ export default {
           this.$message.success('归档成功')
         })
     },
-    // 新建报表
-    createReportForm() {
-      const yearMonth = this.getNextMonth()
-      const year = yearMonth.substring(0, 4)
-      const month = yearMonth.substring(4)
-      this.$confirm(
-        '您将创建 《 ' + year + '年' + month + '月 》 报表').then(() => {
-        this.yearMonth = yearMonth
-        this.createNewReport(this.yearMonth)
-        this.$message.success('新建报表成功')
-        this.getArchivingCont()
-      })
-    },
     async createNewReport(yearMonth) {
       await newReport({ yearMonth })
     },
@@ -128,6 +115,20 @@ export default {
       }
       const t2 = year2 + month2
       return t2
+    },
+    // 新建报表
+    createReportForm() {
+      const yearsMonth = this.getNextMonth()
+      console.log(yearsMonth)
+      const year = yearsMonth.substring(0, 4)
+      const month = yearsMonth.substring(4)
+      this.$confirm(
+        '您将创建 《 ' + year + '年' + month + '月 》 报表').then(() => {
+        this.yearMonth = yearsMonth
+        this.createNewReport(this.yearMonth)
+        this.$message.success('新建报表成功')
+        this.getArchivingCont()
+      })
     },
     handleExport() {
 

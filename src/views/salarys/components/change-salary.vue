@@ -57,7 +57,7 @@
 </template>
 
 <script>
-import { getUserDetailById } from '@/api/user'
+import { getUserBaseById } from '@/api/user'
 import { changeSalary } from '@/api/salarys'
 
 export default {
@@ -115,7 +115,7 @@ export default {
       this.$emit('onDialogCancel')
     },
     async getUserDetailById() {
-      this.user = await getUserDetailById(this.userId)
+      this.user = await getUserBaseById(this.userId)
     }
   }
 }

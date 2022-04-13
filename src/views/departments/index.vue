@@ -49,7 +49,6 @@ export default {
     async getDepartments() {
       const result = await getDepartments()
       this.departs = turnTreeData(result.depts, '')
-      console.log(result)
     },
     addDepts(treenode) { // treeNode 形参接受事件在Tree-tool组件触发时传入的node节点
       this.dialogVisible = true// 显示弹层

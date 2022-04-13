@@ -12,7 +12,14 @@ function pluralize(time, label) {
   }
   return time + label + 's'
 }
-
+export function getInteger(value) {
+  var reg = /d+$/
+  return reg.test(value)
+}
+export function getIntegerPoint(value) {
+  var reg = /^(\d+)(.\d{0,2})?$/
+  return reg.test(value)
+}
 /**
  * @param {number} time
  */

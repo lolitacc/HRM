@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export function getArchivingCont(params) {
   return request({
-    url: `/social_securitys/historys/${params.month}`,
+    url: `/social_securitys/historys/${params.yearMonth}`,
     params
   })
 }
